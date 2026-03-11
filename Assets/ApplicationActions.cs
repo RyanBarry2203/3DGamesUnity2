@@ -151,9 +151,64 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""686999c5-6332-4cef-a920-5fc6e8ea7c2e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d6c5ee18-6895-4a6d-9ac6-283c0c8b6452"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""2a3344e4-4230-4d66-983e-005871331749"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""db219068-5218-4649-8a48-f57d22f098d4"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""4c9bbd9c-42eb-4f71-a0ce-74accd9d1eb5"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
-                    ""id"": ""d3bc8350-07e5-478b-8129-1d49e01a2ef6"",
-                    ""path"": """",
+                    ""id"": ""e1c31127-a0e8-4464-822d-68a938e5a99d"",
+                    ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -164,7 +219,7 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""914a8578-d983-410f-a09b-e57418894964"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -175,7 +230,7 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""123cfe3b-232f-4847-b917-2b4447459600"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -186,7 +241,7 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4f0d354a-eea7-42b8-a076-83971fe47906"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
