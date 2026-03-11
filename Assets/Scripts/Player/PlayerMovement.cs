@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         InputManager.Actions.Game.Move.performed += OnMove;
+        InputManager.Actions.Game.Move.canceled += OnMove;
         InputManager.Actions.Game.Jump.performed += OnJump;
         InputManager.Actions.Game.Crouch.performed += OnCrouch;
         InputManager.Actions.Game.Sprint.performed += OnSprint;
@@ -44,8 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        // Unsubscribing to prevent memory leaks (inferred from OnEnable)
         InputManager.Actions.Game.Move.performed -= OnMove;
+        InputManager.Actions.Game.Move.canceled -= OnMove;
         InputManager.Actions.Game.Jump.performed -= OnJump;
         InputManager.Actions.Game.Crouch.performed -= OnCrouch;
         InputManager.Actions.Game.Sprint.performed -= OnSprint;
