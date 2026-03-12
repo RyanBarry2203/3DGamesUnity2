@@ -16,6 +16,7 @@ public class LightSwitch : MonoBehaviour, IInteractable
     public void Interact(GameObject interactor)
     {
         IsOn = !IsOn;
+        UpdateConnectedLights();
     }
     private void UpdateConnectedLights()
     {
