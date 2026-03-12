@@ -2,11 +2,23 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public static ApplicationActions Actions { get; private set; }
+    public static ApplicationActions Actions;
 
-    void Awake()
+    private void Awake()
     {
-        Actions = new ApplicationActions();
+        if (Actions == null)
+        {
+            Actions = new ApplicationActions();
+        }
+
         Actions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        if (Actions != null)
+        {
+            Actions.Disable();
+        }
     }
 }

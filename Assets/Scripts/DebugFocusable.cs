@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DebugFocusable : MonoBehaviour, IFocusable
 {
-    public Color highlightColor = Color.white;
+    [ColorUsage(true, true)] public Color highlightColor = Color.white;
     private Color origionalColor;
     private MeshRenderer meshRenderer;
     private Material material;
@@ -18,6 +18,8 @@ public class DebugFocusable : MonoBehaviour, IFocusable
     }
     public void Focus(GameObject interactor)
     {
+        Debug.Log($"Focused on {gameObject.name} by {interactor.name}");
+
         if (material != null)
         {
             origionalColor = material.GetColor("_EmissionColor");
