@@ -1,28 +1,37 @@
 using UnityEngine;
 
-public class LightSwitch : MonoBehaviour, IInteractable
-{
-    [SerializeField] private Light[] ConnectedLights;
-    [SerializeField] private bool IsOn = true;
 
-    private void Awake()
+    public class LightSwitch : MonoBehaviour, IInteractable
     {
-        UpdateConnectedLights();
-    }
-    public bool CanInteractWith(GameObject interactor)
-    {
-        return true;
-    }
-    public void Interact(GameObject interactor)
-    {
-        IsOn = !IsOn;
-        UpdateConnectedLights();
-    }
-    private void UpdateConnectedLights()
-    {
-        foreach (var light in ConnectedLights)
+        [SerializeField] private Light[] ConnectedLights;
+        [SerializeField] private bool IsOn = true;
+
+        //public bool canSwitchLight => BasicInventory.items.HasItem("test") ?? false;
+
+        private void Awake()
         {
-            light.enabled = IsOn;
+            UpdateConnectedLights();
+        }
+        public bool CanInteractWith(GameObject interactor)
+        {
+            if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory))
+            {
+                return inventory.HasItem("test");
+            }
+
+            return false;
+        }
+        public void Interact(GameObject interactor)
+        {
+            IsOn = !IsOn;
+            UpdateConnectedLights();
+        }
+        private void UpdateConnectedLights()
+        {
+                foreach (var light in ConnectedLights)
+                {
+                    light.enabled = IsOn;
+                }
         }
     }
-}
+
