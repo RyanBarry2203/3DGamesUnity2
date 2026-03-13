@@ -22,8 +22,8 @@ public class DebugFocusable : MonoBehaviour, IFocusable
 
         if (material != null)
         {
-            origionalColor = material.GetColor("_EmissionColor");
-            material.SetColor("EmissionColor", highlightColor);
+            origionalColor = material.GetColor("_BaseColor");
+            material.SetColor("_BaseColor", highlightColor);
             material.EnableKeyword("_EMISSION");
         }
     }
