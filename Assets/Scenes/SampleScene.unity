@@ -286,6 +286,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugFocusable
   highlightColor: {r: 0.015686274, g: 0.10378324, b: 1, a: 1}
+--- !u!114 &353229164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353229156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 851a285729f6d1844b7ef3e994804162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebugDamageable
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,6 +853,8 @@ GameObject:
   - component: {fileID: 1168888976}
   - component: {fileID: 1168888980}
   - component: {fileID: 1168888981}
+  - component: {fileID: 1168888983}
+  - component: {fileID: 1168888982}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -954,6 +968,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicInventory
   items: []
+--- !u!114 &1168888982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168888975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e781e1a5d0c72441ab22b36f22a763b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPhysicsResponse
+--- !u!114 &1168888983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168888975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7770093f7815c19409f6ded1dfdb1dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  WeaponDistance: 3
+  WeaponDamage: 25
+  CameraTransform: {fileID: 330585546}
+  DamageableLayers:
+    serializedVersion: 2
+    m_Bits: 72
 --- !u!1 &1314091635 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8461203665474768494, guid: eabe04a2156a00b4a95532924ce78e3c, type: 3}
@@ -999,6 +1043,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugFocusable
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &1314091644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314091635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 851a285729f6d1844b7ef3e994804162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebugDamageable
 --- !u!1 &1525488410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,6 +1069,7 @@ GameObject:
   - component: {fileID: 1525488412}
   - component: {fileID: 1525488411}
   - component: {fileID: 1525488416}
+  - component: {fileID: 1525488417}
   m_Layer: 6
   m_Name: BasicItem
   m_TagString: Untagged
@@ -1138,6 +1195,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugFocusable
   highlightColor: {r: 1, g: 0.7639563, b: 0.015686274, a: 1}
+--- !u!114 &1525488417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525488410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 851a285729f6d1844b7ef3e994804162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebugDamageable
 --- !u!1 &1528890158
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,6 +1898,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2253704915558920924, guid: 26476ac93b24e0d4781d4ae5850084f5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 353229163}
+    - targetCorrespondingSourceObject: {fileID: 2253704915558920924, guid: 26476ac93b24e0d4781d4ae5850084f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 353229164}
   m_SourcePrefab: {fileID: 100100000, guid: 26476ac93b24e0d4781d4ae5850084f5, type: 3}
 --- !u!1001 &6537543115568441147
 PrefabInstance:
@@ -1928,6 +2000,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8461203665474768494, guid: eabe04a2156a00b4a95532924ce78e3c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1314091643}
+    - targetCorrespondingSourceObject: {fileID: 8461203665474768494, guid: eabe04a2156a00b4a95532924ce78e3c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1314091644}
   m_SourcePrefab: {fileID: 100100000, guid: eabe04a2156a00b4a95532924ce78e3c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
