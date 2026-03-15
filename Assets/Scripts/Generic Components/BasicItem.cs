@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BasicItem : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string itemName;
+    [SerializeField] private ItemData item;
 
     public bool CanInteractWith(GameObject interactor)
     {
@@ -12,8 +12,8 @@ public class BasicItem : MonoBehaviour, IInteractable
     {
         if (interactor.TryGetComponent<BasicInventory>(out BasicInventory invenmtory))
         {
-            invenmtory.AddItem(itemName);
-            Debug.Log($"Picked up {itemName}.");
+            invenmtory.AddItem(item);
+            Debug.Log($"Picked up {item.itemName}.");
             Destroy(gameObject);
         }
     }

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class TreasureChest : MonoBehaviour, IInteractable, IFocusable
 {
-    public Color lockedColor = Color.red;
-    public Color unlockledColor = Color.green;
     private Color origionalColor;
 
-    [SerializeField] private string itemName;
+    public ChestData chestData;
+    //[SerializeField] public ItemData itemData;
+
 
     private bool isOpened = false;
 
@@ -32,11 +32,11 @@ public class TreasureChest : MonoBehaviour, IInteractable, IFocusable
 
             if (!isOpened)
             {
-                material.SetColor("_EmissionColor", lockedColor);
+                material.SetColor("_EmissionColor", chestData.lockedColor);
             }
             else
             {
-                material.SetColor("_EmissionColor", unlockledColor);
+                material.SetColor("_EmissionColor", chestData.unlockedColor);
             }
         }
     }
@@ -59,13 +59,13 @@ public class TreasureChest : MonoBehaviour, IInteractable, IFocusable
 
         if (material != null)
         {
-            material.SetColor("_EmissionColor", unlockledColor);
+            material.SetColor("_EmissionColor", chestData.unlockedColor);
         }
 
         if (interactor.TryGetComponent<BasicInventory>(out BasicInventory invenmtory))
         {
-            invenmtory.AddItem(itemName);
-            Debug.Log($"Picked up {itemName}.");
+            invenmtory.AddItem(chestData.itemInside);
+            Debug.Log($"Picked up {chestData.itemInside.itemName}.");
             //Destroy(gameObject);
         }
     }

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class BasicInventory : MonoBehaviour
 {
-    [SerializeField] private List<string> items = new();
+    [SerializeField] private List<ItemData> items = new();
 
-    public void AddItem(string item)
+    public void AddItem(ItemData item)
     {
         if (!items.Contains(item))
         {
@@ -15,7 +15,7 @@ public class BasicInventory : MonoBehaviour
         }
     }
 
-    public bool HasItem(string item)
+    public bool HasItem(ItemData item)
     {
         return items.Contains(item);
     }

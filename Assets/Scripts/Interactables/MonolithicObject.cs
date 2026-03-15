@@ -1,0 +1,82 @@
+//using UnityEngine;
+
+//public class MonolithicObject : MonoBehaviour, IInteractable, IFocusable, IDamageable
+//{
+//    public float health = 75f;
+//    public Color glowColor = Color.cyan;
+//    public string requiredItem = "MagicKey";
+
+//    public Color origionalColor;
+
+//    private Material material;
+//    private bool isDead = false;
+
+//    public bool IsAlive
+//    {
+//        get { return health > 0 && !isDead; }
+//    }
+
+//    private void Awake()
+//    {
+//        if (TryGetComponent<Renderer>(out Renderer renderer))
+//        {
+//            material = renderer.material;
+//            origionalColor = material.GetColor("_EmissionColor");
+//        }
+//    }
+
+//    public void Focus(GameObject interactor)
+//    {
+//        if (material != null)
+//        {
+//            material.EnableKeyword("_EMISSION");
+//            material.SetColor("_BaseColor", glowColor);
+//        }
+//    }
+
+//    public void Unfocus(GameObject interactor)
+//    {
+//        if (material != null)
+//        {
+//            material.DisableKeyword("_EMISSION");
+//            material.SetColor("_BaseColor", origionalColor);
+//        }
+//    }
+//    public bool CanInteractWith(GameObject interactor)
+//    {
+//        if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory))
+//        {
+//            return inventory.HasItem(requiredItem);
+//        }
+
+//        return false;
+//    }
+//    public void Interact(GameObject interactor)
+//    {
+//        if (material != null)
+//        {
+//            Debug.Log("You touched the Monolith");
+//            gameObject.SetActive(false);
+//        }
+//    }
+//    public void ApplyDamage(float damageAmount)
+//    {
+
+//        if (!IsAlive) return;
+
+//        health -= damageAmount;
+
+//        if (health <= 0)
+//        {
+//            isDead = true;
+//            Destroy(gameObject);
+//            Debug.Log("Monolith Destroyed");
+//            gameObject.SetActive(false);
+//        }
+//        else
+//        {
+
+//            Debug.Log($"Damage applied: {damageAmount}. Remaining health: {health}");
+//        }
+//    }
+//}

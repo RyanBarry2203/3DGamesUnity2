@@ -6,6 +6,10 @@ using UnityEngine;
         [SerializeField] private Light[] ConnectedLights;
         [SerializeField] private bool IsOn = true;
 
+        public LightSwitchData lightSwitchData;
+
+    
+
         //public bool canSwitchLight => BasicInventory.items.HasItem("test") ?? false;
 
         private void Awake()
@@ -16,7 +20,7 @@ using UnityEngine;
         {
             if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory))
             {
-                return inventory.HasItem("test");
+                return inventory.HasItem(lightSwitchData.requiredItem);
             }
 
             return false;

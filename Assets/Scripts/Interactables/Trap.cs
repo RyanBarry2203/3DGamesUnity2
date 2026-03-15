@@ -1,15 +1,12 @@
 using UnityEngine;
 
-public class MonolithicObject : MonoBehaviour, IInteractable, IFocusable, IDamageable
+public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable
 {
-    public float health = 75f;
-    public Color glowColor = Color.cyan;
-    public string requiredItem = "MagicKey";
-
-    public Color origionalColor;
+    public TrapData trapData;
 
     private Material material;
     private bool isDead = false;
+    public float health;
 
     public bool IsAlive
     {
@@ -21,16 +18,16 @@ public class MonolithicObject : MonoBehaviour, IInteractable, IFocusable, IDamag
         if (TryGetComponent<Renderer>(out Renderer renderer))
         {
             material = renderer.material;
-            origionalColor = material.GetColor("_EmissionColor");
+            trapData.origionalColor = material.GetColor("_EmissionColor");
         }
+        health = trapData.startingHealth;
     }
 
     public void Focus(GameObject interactor)
     {
         if (material != null)
         {
-            material.EnableKeyword("_EMISSION");
-            material.SetColor("_BaseColor", glowColor);
+            material.SetColor("_BaseColor", trapData.focus);
         }
     }
 
@@ -38,15 +35,14 @@ public class MonolithicObject : MonoBehaviour, IInteractable, IFocusable, IDamag
     {
         if (material != null)
         {
-            material.DisableKeyword("_EMISSION");
-            material.SetColor("_BaseColor", origionalColor);
+            material.SetColor("_BaseColor", trapData.origionalColor);
         }
     }
     public bool CanInteractWith(GameObject interactor)
     {
         if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory))
         {
-            return inventory.HasItem(requiredItem);
+            return inventory.HasItem(trapData.disarmKit);
         }
 
         return false;
@@ -55,7 +51,8 @@ public class MonolithicObject : MonoBehaviour, IInteractable, IFocusable, IDamag
     {
         if (material != null)
         {
-            Debug.Log("You touched the Monolith");
+            material.SetColor("_BaseColor", trapData.disarmed);
+            Debug.Log("You disarmed the trap!");
             gameObject.SetActive(false);
         }
     }
@@ -70,7 +67,7 @@ public class MonolithicObject : MonoBehaviour, IInteractable, IFocusable, IDamag
         {
             isDead = true;
             Destroy(gameObject);
-            Debug.Log("Monolith Destroyed");
+            Debug.Log("Trap Destroyed");
             gameObject.SetActive(false);
         }
         else
