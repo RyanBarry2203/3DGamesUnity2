@@ -10,9 +10,9 @@ public class BasicItem : MonoBehaviour, IInteractable
     }
     public void Interact(GameObject interactor)
     {
-        if (interactor.TryGetComponent<BasicInventory>(out BasicInventory invenmtory))
+        if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory))
         {
-            invenmtory.AddItem(item);
+            inventory.AddItem(item);
             Debug.Log($"Picked up {item.itemName}.");
             Destroy(gameObject);
         }

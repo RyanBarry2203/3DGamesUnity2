@@ -1,17 +1,23 @@
-//using NUnit.Framework;
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class BasicInventory : MonoBehaviour
 {
     [SerializeField] private List<ItemData> items = new();
+
+
+    public event Action<ItemData> OnItemAdded;
 
     public void AddItem(ItemData item)
     {
         if (!items.Contains(item))
         {
             items.Add(item);
-            Debug.Log($"Added {item} to inventory.");
+            Debug.Log($"Added {item.itemName} to inventory.");
+
+
+            OnItemAdded?.Invoke(item);
         }
     }
 

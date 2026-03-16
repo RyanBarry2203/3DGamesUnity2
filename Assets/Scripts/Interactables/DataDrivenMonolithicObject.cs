@@ -57,7 +57,7 @@ public class DataDrivenMonolithicObject : MonoBehaviour, IInteractable, IFocusab
     {
         if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory) && data != null)
         {
-            return inventory.HasItem(data.requredItem);
+            return inventory.HasItem(data.requiredItem);
         }
         return false;
     }

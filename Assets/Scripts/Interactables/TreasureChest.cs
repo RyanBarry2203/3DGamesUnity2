@@ -62,9 +62,9 @@ public class TreasureChest : MonoBehaviour, IInteractable, IFocusable
             material.SetColor("_EmissionColor", chestData.unlockedColor);
         }
 
-        if (interactor.TryGetComponent<BasicInventory>(out BasicInventory invenmtory))
+        if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory))
         {
-            invenmtory.AddItem(chestData.itemInside);
+            inventory.AddItem(chestData.itemInside);
             Debug.Log($"Picked up {chestData.itemInside.itemName}.");
             //Destroy(gameObject);
         }
