@@ -7,6 +7,8 @@ public class TreasureChest : MonoBehaviour, IInteractable, IFocusable
     public ChestData chestData;
     //[SerializeField] public ItemData itemData;
 
+    private Animator animator;
+
 
     private bool isOpened = false;
 
@@ -19,6 +21,8 @@ public class TreasureChest : MonoBehaviour, IInteractable, IFocusable
             material = renderer.material;
             origionalColor = material.GetColor("_EmissionColor");
         }
+        animator = GetComponentInChildren<Animator>();
+
     }
     private void Start()
     {
@@ -67,6 +71,11 @@ public class TreasureChest : MonoBehaviour, IInteractable, IFocusable
             inventory.AddItem(chestData.itemInside);
             Debug.Log($"Picked up {chestData.itemInside.itemName}.");
             //Destroy(gameObject);
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("OpenTrigger");
         }
     }
 
