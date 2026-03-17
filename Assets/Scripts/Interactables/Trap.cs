@@ -92,20 +92,19 @@ public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable, IPool
     {
         if (isDead) return;
 
+        Debug.Log("Trap was stepped on by: " + other.gameObject.name);
+
+        if (animator != null)
+        {
+            animator.SetTrigger("OnTrigger");
+        }
+
         if (other.TryGetComponent<IDamageable>(out var damageable))
         {
-            Debug.Log("Trap snapped on " + other.name + "!");
-
-            // Deal damage to the player
             damageable.ApplyDamage(trapData.damageToPlayer);
-
-            // Play the animation
-            if (animator != null)
-            {
-                animator.SetTrigger("Snap");
-            }
-
-            isDead = true;
+            Debug.Log("Dealt damage to " + other.gameObject.name);
         }
+
+        isDead = true;
     }
 }

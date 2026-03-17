@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrapData
   focus: {r: 1, g: 0, b: 0, a: 1}
   disarmed: {r: 0, g: 1, b: 0, a: 1}
-  origionalColor: {r: 0, g: 0, b: 0, a: 0}
+  origionalColor: {r: 1, g: 1, b: 1, a: 0}
   startingHealth: 50
+  damageToPlayer: 25
   disarmKit: {fileID: 11400000, guid: e8d7e566aa60acb4894c7beb04bfcc25, type: 2}
