@@ -6,19 +6,21 @@ public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable, IPool
     public TrapData trapData;
     public float health;
 
-    private Renderer[] renderers; 
+    private Renderer[] renderers;
     private MaterialPropertyBlock propBlock;
-
-    private ObjectPool<GameObject> myPool; 
+    private ObjectPool<GameObject> myPool;
     private bool isDead = false;
+
+    private Animator animator;
 
     public bool IsAlive => health > 0 && !isDead;
 
     private void Awake()
     {
-
         renderers = GetComponentsInChildren<Renderer>();
         propBlock = new MaterialPropertyBlock();
+
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -43,6 +45,7 @@ public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable, IPool
         else
             gameObject.SetActive(false);
     }
+
     private void SetColor(Color color)
     {
         if (renderers == null || renderers.Length == 0) return;
@@ -67,7 +70,7 @@ public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable, IPool
     {
         SetColor(trapData.disarmed);
         Debug.Log("You disarmed the trap!");
-        ReturnToPool();
+        isDead = true;
     }
 
     public void ApplyDamage(float damageAmount)
@@ -80,7 +83,29 @@ public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable, IPool
         {
             isDead = true;
             Debug.Log("Trap Destroyed");
-            ReturnToPool(); 
+            ReturnToPool();
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isDead) return;
+
+        if (other.TryGetComponent<IDamageable>(out var damageable))
+        {
+            Debug.Log("Trap snapped on " + other.name + "!");
+
+            // Deal damage to the player
+            damageable.ApplyDamage(trapData.damageToPlayer);
+
+            // Play the animation
+            if (animator != null)
+            {
+                animator.SetTrigger("Snap");
+            }
+
+            isDead = true;
         }
     }
 }

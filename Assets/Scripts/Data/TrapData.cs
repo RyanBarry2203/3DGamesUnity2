@@ -9,6 +9,7 @@ public class TrapData : ScriptableObject
     public Color disarmed = Color.green;
     public Color origionalColor;
     public float startingHealth = 50;
+    public float damageToPlayer = 25;
 
     [Header("Disarm Requirements")]
     public ItemData disarmKit;
