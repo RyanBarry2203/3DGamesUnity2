@@ -5,6 +5,7 @@ using UnityEngine;
 public class BasicInventory : MonoBehaviour
 {
     [SerializeField] private List<ItemData> items = new();
+    [SerializeField] private ItemEventChannelSO itemAddedChannel;
 
 
     public event Action<ItemData> OnItemAdded;
@@ -14,10 +15,8 @@ public class BasicInventory : MonoBehaviour
         if (!items.Contains(item))
         {
             items.Add(item);
-            Debug.Log($"Added {item.itemName} to inventory.");
-
-
-            OnItemAdded?.Invoke(item);
+            if (itemAddedChannel != null)
+                itemAddedChannel.RaiseEvent(item);
         }
     }
 

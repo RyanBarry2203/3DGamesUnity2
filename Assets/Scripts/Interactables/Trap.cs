@@ -1,64 +1,77 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable
+public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable, IPoolable
 {
     public TrapData trapData;
-
-    private Material material;
-    private bool isDead = false;
     public float health;
 
-    public bool IsAlive
-    {
-        get { return health > 0 && !isDead; }
-    }
+    private Renderer[] renderers; 
+    private MaterialPropertyBlock propBlock;
+
+    private ObjectPool<GameObject> myPool; 
+    private bool isDead = false;
+
+    public bool IsAlive => health > 0 && !isDead;
 
     private void Awake()
     {
-        if (TryGetComponent<Renderer>(out Renderer renderer))
-        {
-            material = renderer.material;
-            trapData.origionalColor = material.GetColor("_EmissionColor");
-        }
-        health = trapData.startingHealth;
+
+        renderers = GetComponentsInChildren<Renderer>();
+        propBlock = new MaterialPropertyBlock();
     }
 
-    public void Focus(GameObject interactor)
+    private void OnEnable()
     {
-        if (material != null)
+        if (trapData != null)
         {
-            material.SetColor("_BaseColor", trapData.focus);
+            health = trapData.startingHealth;
+            SetColor(trapData.origionalColor);
+        }
+        isDead = false;
+    }
+
+    public void Initialize(ObjectPool<GameObject> pool)
+    {
+        myPool = pool;
+    }
+
+    public void ReturnToPool()
+    {
+        if (myPool != null)
+            myPool.Release(gameObject);
+        else
+            gameObject.SetActive(false);
+    }
+    private void SetColor(Color color)
+    {
+        if (renderers == null || renderers.Length == 0) return;
+
+        foreach (Renderer r in renderers)
+        {
+            r.GetPropertyBlock(propBlock);
+            propBlock.SetColor("_BaseColor", color);
+            r.SetPropertyBlock(propBlock);
         }
     }
 
-    public void Unfocus(GameObject interactor)
-    {
-        if (material != null)
-        {
-            material.SetColor("_BaseColor", trapData.origionalColor);
-        }
-    }
+    public void Focus(GameObject interactor) => SetColor(trapData.focus);
+    public void Unfocus(GameObject interactor) => SetColor(trapData.origionalColor);
+
     public bool CanInteractWith(GameObject interactor)
     {
-        if (interactor.TryGetComponent<BasicInventory>(out BasicInventory inventory))
-        {
-            return inventory.HasItem(trapData.disarmKit);
-        }
-
-        return false;
+        return interactor.TryGetComponent<BasicInventory>(out var inventory) && inventory.HasItem(trapData.disarmKit);
     }
+
     public void Interact(GameObject interactor)
     {
-        if (material != null)
-        {
-            material.SetColor("_BaseColor", trapData.disarmed);
-            Debug.Log("You disarmed the trap!");
-            gameObject.SetActive(false);
-        }
+        SetColor(trapData.disarmed);
+        Debug.Log("You disarmed the trap!");
+        ReturnToPool();
     }
+
     public void ApplyDamage(float damageAmount)
     {
-
         if (!IsAlive) return;
 
         health -= damageAmount;
@@ -66,14 +79,8 @@ public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable
         if (health <= 0)
         {
             isDead = true;
-            Destroy(gameObject);
             Debug.Log("Trap Destroyed");
-            gameObject.SetActive(false);
-        }
-        else
-        {
-
-            Debug.Log($"Damage applied: {damageAmount}. Remaining health: {health}");
+            ReturnToPool(); 
         }
     }
 }
