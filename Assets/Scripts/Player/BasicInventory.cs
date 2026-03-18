@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class BasicInventory : MonoBehaviour
 {
-    [SerializeField] private List<ItemData> items = new();
+    private HashSet<ItemData> items = new HashSet<ItemData>();
+
     [SerializeField] private ItemEventChannelSO itemAddedChannel;
-
-
     public event Action<ItemData> OnItemAdded;
 
     public void AddItem(ItemData item)
     {
-        if (!items.Contains(item))
+        if (items.Add(item))
         {
-            items.Add(item);
             if (itemAddedChannel != null)
                 itemAddedChannel.RaiseEvent(item);
         }

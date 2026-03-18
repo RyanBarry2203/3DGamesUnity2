@@ -23,9 +23,13 @@ public class PlayerInteraction : MonoBehaviour
     }
     private void ClearFocus()
     {
-
-        if (currentFocusable != null && (currentFocusable as Object) != null)
+        // if the object we were focusing on was destroyed (e.g. a window broke)
+        // currentFocusable would still hold a reference, but the GameObject is gone.
+        // memory leak
+        if (currentFocusable != null && (currentFocusable as MonoBehaviour) != null)
+        {
             currentFocusable.Unfocus(gameObject);
+        }
 
         currentFocusable = null;
         currentInteractable = null;

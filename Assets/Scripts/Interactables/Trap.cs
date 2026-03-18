@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable, IPoolable
+public class Trap : MonoBehaviour, IInteractable, IFocusable, IDamageable
 {
     public TrapData trapData;
     public float health;
