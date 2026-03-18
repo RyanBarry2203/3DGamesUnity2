@@ -37,27 +37,17 @@ public class StressTestSpawner : MonoBehaviour
         return Instantiate(prefabToSpawn);
     }
 
-    private void OnTakeFromPool(GameObject obj)
-    {
-        obj.SetActive(true);
-    }
-
-    private void OnReturnedToPool(GameObject obj)
-    {
-        obj.SetActive(false);
-    }
-
-    private void OnDestroyPoolObject(GameObject obj)
-    {
-        Destroy(obj);
-    }
+    private void OnTakeFromPool(GameObject obj) => obj.SetActive(true);
+    private void OnReturnedToPool(GameObject obj) => obj.SetActive(false);
+    private void OnDestroyPoolObject(GameObject obj) => Destroy(obj);
 
     void Update()
     {
-        if (Keyboard.current.tKey.wasPressedThisFrame)
+
+        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
             isSpawning = !isSpawning;
-            Debug.Log(isSpawning ? "Spawning Started!" : "Spawning Stopped.");
+            Debug.Log(isSpawning ? "Stress Test Started!" : "Stress Test Stopped.");
         }
 
         if (isSpawning)
@@ -68,6 +58,13 @@ public class StressTestSpawner : MonoBehaviour
 
                 newObj.transform.position = transform.position + Random.insideUnitSphere * spawnRadius;
                 newObj.transform.rotation = Random.rotation;
+
+                // Reset velocity so they don't inherit crazy physics from previous lives
+                if (newObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
+                {
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                }
 
                 activeObjects.Enqueue(newObj);
 

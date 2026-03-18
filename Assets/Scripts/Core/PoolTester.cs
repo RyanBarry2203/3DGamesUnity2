@@ -1,8 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(AsyncPoolManager))]
 public class PoolTester : MonoBehaviour
 {
-    public AsyncPoolManager poolManager;
+    private AsyncPoolManager poolManager;
+
+    void Awake()
+    {
+        poolManager = GetComponent<AsyncPoolManager>();
+    }
 
     async void Start()
     {
@@ -11,7 +18,7 @@ public class PoolTester : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
             poolManager.SpawnObject(transform.position, Quaternion.identity);
         }
