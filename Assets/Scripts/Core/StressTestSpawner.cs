@@ -15,6 +15,7 @@ public class StressTestSpawner : MonoBehaviour
 
     [Header("State")]
     public bool isSpawning = false;
+    public bool isDespawning = false;
 
     private ObjectPool<GameObject> objectPool;
     private Queue<GameObject> activeObjects = new Queue<GameObject>();
@@ -43,11 +44,16 @@ public class StressTestSpawner : MonoBehaviour
 
     void Update()
     {
-
         if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
             isSpawning = !isSpawning;
             Debug.Log(isSpawning ? "Stress Test Started!" : "Stress Test Stopped.");
+        }
+
+        if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            isDespawning = !isDespawning;
+            Debug.Log(isDespawning ? "Despawning Started!" : "Despawning Stopped.");
         }
 
         if (isSpawning)
@@ -59,10 +65,9 @@ public class StressTestSpawner : MonoBehaviour
                 newObj.transform.position = transform.position + Random.insideUnitSphere * spawnRadius;
                 newObj.transform.rotation = Random.rotation;
 
-                // Reset velocity so they don't inherit crazy physics from previous lives
                 if (newObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
                 {
-                    rb.linearVelocity = Vector3.zero;
+                    rb.velocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
                 }
 
@@ -75,13 +80,27 @@ public class StressTestSpawner : MonoBehaviour
                 }
             }
         }
+
+        if (isDespawning)
+        {
+            for (int i = 0; i < spawnCountPerFrame; i++)
+            {
+                if (activeObjects.Count == 0)
+                    break;
+
+                GameObject objToDespawn = activeObjects.Dequeue();
+                objectPool.Release(objToDespawn);
+            }
+        }
     }
 
     private void OnGUI()
     {
         GUI.color = Color.green;
         GUI.skin.label.fontSize = 24;
-        GUI.Label(new Rect(10, 10, 400, 50), $"Active Objects: {activeObjects.Count}");
-        GUI.Label(new Rect(10, 40, 400, 50), $"Total in Pool Memory: {objectPool.CountAll}");
+        GUI.Label(new Rect(10, 10, 600, 50), $"Active Objects (in scene): {activeObjects.Count}");
+        GUI.Label(new Rect(10, 40, 600, 50), $"Total created (pool.CountAll): {objectPool.CountAll}");
+        GUI.Label(new Rect(10, 70, 600, 50), $"Spawning: {(isSpawning ? "ON" : "OFF")} (Toggle with 'T')");
+        GUI.Label(new Rect(10, 100, 600, 50), $"Despawning: {(isDespawning ? "ON" : "OFF")} (Toggle with 'R')");
     }
 }

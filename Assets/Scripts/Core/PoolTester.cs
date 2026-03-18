@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AsyncPoolManager))]
 public class PoolTester : MonoBehaviour
 {
-    private AsyncPoolManager poolManager;
+     [SerializeField]private AsyncPoolManager poolManager;
 
     void Awake()
     {
@@ -14,13 +14,8 @@ public class PoolTester : MonoBehaviour
     async void Start()
     {
         await poolManager.InitializePoolAsync();
+        poolManager.SpawnObject(transform.position, Quaternion.identity);
     }
-
-    void Update()
-    {
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
-        {
-            poolManager.SpawnObject(transform.position, Quaternion.identity);
-        }
-    }
+        
+    
 }

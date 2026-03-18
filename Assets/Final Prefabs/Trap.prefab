@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4939706372753526237
 Transform:
@@ -43,15 +43,13 @@ GameObject:
   - component: {fileID: 2374426944817280431}
   - component: {fileID: 1683346996112144906}
   - component: {fileID: 3510701480789987008}
-  - component: {fileID: 1547857625438882777}
   - component: {fileID: 4103752641744397898}
-  - component: {fileID: 1893548894232904030}
   m_Layer: 6
   m_Name: trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2374426944817280431
 Transform:
@@ -125,27 +123,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1547857625438882777
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3150399972080578325}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6392003, y: 1, z: 0.6375}
-  m_Center: {x: 0.00085018575, y: 0.5, z: -0.00000011920929}
 --- !u!95 &4103752641744397898
 Animator:
   serializedVersion: 7
@@ -168,20 +145,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1893548894232904030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3150399972080578325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 773ef371aaf16dd448048ac8ae934336, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Trap
-  trapData: {fileID: 11400000, guid: 1481255598238e44e80e8066ac8d998a, type: 2}
-  health: 50
 --- !u!1 &4293388517744584442
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +161,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1056151926232965009
 Transform:
@@ -281,12 +244,15 @@ GameObject:
   m_Component:
   - component: {fileID: 6920283854697830098}
   - component: {fileID: 3096959271813787585}
+  - component: {fileID: 3736110109044045133}
+  - component: {fileID: 7617376235483329836}
+  - component: {fileID: 1707971864843693714}
   m_Layer: 6
   m_Name: Trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6920283854697830098
 Transform:
@@ -319,12 +285,59 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.6742, y: 2.3191, z: 2.6249}
-  m_Center: {x: -0.027701827, y: 0.22605698, z: -0.18840979}
+  m_Size: {x: 0.6392003, y: 0.8972478, z: 0.61199534}
+  m_Center: {x: 0.000850183, y: 0.3389965, z: -0.5148091}
+--- !u!114 &3736110109044045133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461289632221067819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773ef371aaf16dd448048ac8ae934336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Trap
+  trapData: {fileID: 11400000, guid: 1481255598238e44e80e8066ac8d998a, type: 2}
+  health: 50
+--- !u!114 &7617376235483329836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461289632221067819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cde3c32f2744e349ac052d183b15443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AsyncPoolManager
+  prefabReference:
+    m_AssetGUID: 5468f8421d47d7e49afe3499e55f1930
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  defaultCapacity: 20
+  maxSize: 100
+--- !u!114 &1707971864843693714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461289632221067819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9b3e9c7eb304f544af858a616e60ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoolTester
+  poolManager: {fileID: 7617376235483329836}
 --- !u!1 &8648334449493691122
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +352,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1189836103333413918
 Transform:
