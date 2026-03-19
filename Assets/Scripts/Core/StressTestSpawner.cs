@@ -67,7 +67,7 @@ public class StressTestSpawner : MonoBehaviour
 
                 if (newObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
                 {
-                    rb.velocity = Vector3.zero;
+                    rb.linearVelocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
                 }
 
