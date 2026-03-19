@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b3252a23981424eb37122796f35813, type: 3}
+  m_Name: EnemySpawner
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnerData
+  prefabReference:
+    m_AssetGUID: 9385cafffb195b540b0e66b6075ddbae
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  spawnCountPerFrame: 5
+  spawnRadius: 10
+  maxActiveObjects: 500
+  toggleAction: {fileID: 9192752014512962732, guid: 76ab7db13bdf8f948b470e8d0b458b6c, type: 3}

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2692343950329744036}
   - component: {fileID: 2014176177342911867}
   - component: {fileID: 72344667399612729}
+  - component: {fileID: 6921884389129986239}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -127,8 +128,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5fcceaffcb1fb468253c3fbbbfd550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  wounded: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  critical: {r: 1, g: 0, b: 0, a: 1}
+  data: {fileID: 11400000, guid: 0680662181cb9cc47a143a83b3c9e2a8, type: 2}
+--- !u!95 &6921884389129986239
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513789984581072065}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2c409b6965cff7e4da98f9c7985b6899, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8979459897373466134
 GameObject:
   m_ObjectHideFlags: 0

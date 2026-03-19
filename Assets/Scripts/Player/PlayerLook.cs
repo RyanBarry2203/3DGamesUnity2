@@ -4,20 +4,21 @@ using UnityEngine.InputSystem;
 [DisallowMultipleComponent]
 public class PlayerLook : MonoBehaviour
 {
+    [Header("Data")]
+    [SerializeField] private PlayerData playerData;
+
+    [Header("Scene References")]
+    [SerializeField] private Camera playerCamera;
+
     private Vector2 lookInput;
     private float mouseX;
     private float mouseY;
     private float xRotation;
 
-    [Header("Settings")]
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] protected float HorizontalSensitivity = 10;
-    [SerializeField] protected float VerticalSensitivity = 10;
-    [SerializeField] private bool IsCursorVisible = true;
-
     private void Awake()
     {
-        Cursor.visible = IsCursorVisible;
+        if (playerData != null)
+            Cursor.visible = playerData.isCursorVisible;
     }
 
     private void OnEnable()
@@ -33,14 +34,15 @@ public class PlayerLook : MonoBehaviour
     public void OnLook(InputAction.CallbackContext obj)
     {
         lookInput = obj.ReadValue<Vector2>();
-
         UpdateLook();
     }
 
     protected virtual void UpdateLook()
     {
-        mouseX = lookInput.x * HorizontalSensitivity * Time.deltaTime;
-        mouseY = lookInput.y * VerticalSensitivity * Time.deltaTime;
+        if (playerData == null) return;
+
+        mouseX = lookInput.x * playerData.horizontalSensitivity * Time.deltaTime;
+        mouseY = lookInput.y * playerData.verticalSensitivity * Time.deltaTime;
 
         transform.Rotate(Vector3.up * mouseX);
 

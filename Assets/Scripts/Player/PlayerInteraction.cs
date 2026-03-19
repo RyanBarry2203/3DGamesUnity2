@@ -3,15 +3,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    public Transform CameraTransform;
-    public float InteractionDistance = 3;
-    public LayerMask InteractionLayers;
-    private RaycastHit raycastHit;
+    [Header("Data")]
+    [SerializeField] private PlayerData playerData;
 
+    [Header("Scene References")]
+    public Transform CameraTransform;
+
+    private RaycastHit raycastHit;
     private IInteractable currentInteractable;
     private IFocusable currentFocusable;
-    //private IFocusable newFocusable;
-
 
     private void OnEnable()
     {
@@ -21,11 +21,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         InputManager.Actions.Game.Interact.performed -= OnInteract;
     }
+
     private void ClearFocus()
     {
-        // if the object we were focusing on was destroyed (e.g. a window broke)
-        // currentFocusable would still hold a reference, but the GameObject is gone.
-        // memory leak
         if (currentFocusable != null && (currentFocusable as MonoBehaviour) != null)
         {
             currentFocusable.Unfocus(gameObject);
@@ -34,27 +32,28 @@ public class PlayerInteraction : MonoBehaviour
         currentFocusable = null;
         currentInteractable = null;
     }
+
     private void CastRay()
     {
+        if (playerData == null) return;
+
         if (Physics.Raycast(
             CameraTransform.position,
             CameraTransform.forward,
             out raycastHit,
-            InteractionDistance,
-            InteractionLayers))
+            playerData.interactionDistance,
+            playerData.interactionLayers))
         {
-            raycastHit.collider.gameObject.TryGetComponent<IInteractable>(out currentInteractable);  
+            raycastHit.collider.gameObject.TryGetComponent<IInteractable>(out currentInteractable);
             raycastHit.collider.gameObject.TryGetComponent<IFocusable>(out IFocusable newFocusable);
 
             if (newFocusable != currentFocusable)
             {
                 ClearFocus();
-
                 currentFocusable = newFocusable;
 
                 if (currentFocusable != null)
                     currentFocusable.Focus(gameObject);
-
             }
         }
         else
@@ -63,11 +62,11 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         CastRay();
     }
+
     public void OnInteract(InputAction.CallbackContext obj)
     {
         if (currentInteractable != null)

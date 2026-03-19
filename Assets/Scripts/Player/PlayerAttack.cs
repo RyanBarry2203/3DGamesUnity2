@@ -3,11 +3,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float WeaponDistance = 3;
-    public float WeaponDamage = 25;
+    [Header("Data")]
+    [SerializeField] private PlayerData playerData;
 
+    [Header("Scene References")]
     public Transform CameraTransform;
-    public LayerMask DamageableLayers;
+
     private RaycastHit raycastHit;
 
     private void OnEnable()
@@ -27,17 +28,19 @@ public class PlayerAttack : MonoBehaviour
 
     private void CastRay()
     {
+        if (playerData == null) return;
+
         if (Physics.Raycast(
             CameraTransform.position,
             CameraTransform.forward,
             out raycastHit,
-            WeaponDistance,
-            DamageableLayers))
+            playerData.weaponDistance,
+            playerData.damageableLayers))
         {
             if (raycastHit.collider.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
                 if (damageable.IsAlive)
-                    damageable.ApplyDamage(WeaponDamage);
+                    damageable.ApplyDamage(playerData.weaponDamage);
             }
         }
     }

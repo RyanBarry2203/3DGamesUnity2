@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Data")]
+    [SerializeField] private PlayerData playerData;
+
     private CharacterController characterController;
 
     public bool IsCrouching { get; private set; }
@@ -16,22 +19,15 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movementVelocity;
     private Vector3 movement;
     private float currentSpeed;
-
-    [Header("Settings")]
-    [SerializeField] private float WalkSpeed;
-    [SerializeField] private float SprintSpeed;
-    [SerializeField] private float CrouchSpeed;
-    [SerializeField] private float CrouchHeight;
-    [SerializeField] private float JumpHeight;
-    [SerializeField] private float Gravity = 9.81f;
-    private float NormalHeight;
+    private float normalHeight;
 
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        normalHeight = characterController.height;
 
-        NormalHeight = characterController.height;
-        currentSpeed = WalkSpeed;
+        if (playerData != null)
+            currentSpeed = playerData.walkSpeed;
     }
 
     private void OnEnable()
@@ -64,39 +60,44 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext obj)
     {
-        if (CanJump())
+        if (CanJump() && playerData != null)
         {
-            movementVelocity.y = JumpHeight;
+            movementVelocity.y = playerData.jumpHeight;
         }
     }
 
     public void OnCrouch(InputAction.CallbackContext obj)
     {
+        if (playerData == null) return;
+
         IsCrouching = !IsCrouching;
-        characterController.height = IsCrouching ? CrouchHeight : NormalHeight;
-        currentSpeed = IsCrouching ? CrouchSpeed : WalkSpeed;
+        characterController.height = IsCrouching ? playerData.crouchHeight : normalHeight;
+        currentSpeed = IsCrouching ? playerData.crouchSpeed : playerData.walkSpeed;
     }
 
     public void OnSprint(InputAction.CallbackContext obj)
     {
+        if (playerData == null) return;
+
         IsSprinting = !IsSprinting;
 
         if (!IsCrouching)
         {
-            currentSpeed = IsSprinting ? SprintSpeed : WalkSpeed;
+            currentSpeed = IsSprinting ? playerData.sprintSpeed : playerData.walkSpeed;
         }
     }
 
     private void Update()
     {
+        if (playerData == null) return;
+
         if (characterController.isGrounded && movementVelocity.y < 0)
         {
-            // Reset velocity when grounded to prevent continuous gravity build-up
             movementVelocity.y = -2f;
         }
 
         movement = transform.right * movementInput.x + transform.forward * movementInput.y;
-        movementVelocity.y -= Gravity * Time.deltaTime;
+        movementVelocity.y -= playerData.gravity * Time.deltaTime;
 
         characterController.Move(((movement * currentSpeed) + movementVelocity) * Time.deltaTime);
     }
