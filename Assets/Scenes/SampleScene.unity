@@ -9495,8 +9495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5fcceaffcb1fb468253c3fbbbfd550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  wounded: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  critical: {r: 1, g: 0, b: 0, a: 1}
+  data: {fileID: 11400000, guid: 0680662181cb9cc47a143a83b3c9e2a8, type: 2}
 --- !u!1001 &1394210127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12590,6 +12589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1921299679}
   - component: {fileID: 1921299680}
+  - component: {fileID: 1921299681}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -12620,7 +12620,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1921299678}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e136dd31e6e2b340afa14f4db24c86f, type: 3}
   m_Name: 
@@ -12631,6 +12631,19 @@ MonoBehaviour:
   maxActiveObjects: 5000
   isSpawning: 0
   isDespawning: 0
+--- !u!114 &1921299681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921299678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dafba8196ac8d45886dea2cf1ac311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AddressableStressSpawner
+  spawnerData: {fileID: 11400000, guid: 304dbc1a6d04d0441849335bf0319887, type: 2}
 --- !u!1001 &1924030124
 PrefabInstance:
   m_ObjectHideFlags: 0

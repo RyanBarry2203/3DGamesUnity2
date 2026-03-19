@@ -2,58 +2,70 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
-    private float health = 100;
+    [Header("Data")]
+    public EnemyData data;
 
-    public Color wounded = Color.yellow;
-    public Color critical = Color.red;
-    private Color origionalColor;
-
-    private Material material;
-
+    private float currentHealth;
     private bool isDead = false;
+
+    private Renderer[] renderers;
+    private MaterialPropertyBlock propBlock;
+
+    public bool IsAlive => currentHealth > 0 && !isDead;
 
     private void Awake()
     {
-        if (TryGetComponent<Renderer>(out Renderer renderer))
-        {
-            material = renderer.material;
-            origionalColor = material.GetColor("_EmissionColor");
-        }
+        renderers = GetComponentsInChildren<Renderer>();
+        propBlock = new MaterialPropertyBlock();
     }
-    public bool IsAlive
+
+    private void OnEnable()
     {
-        get { return health > 0 && !isDead; }
+        if (data != null)
+        {
+            currentHealth = data.maxHealth;
+            UpdateColor(data.healthyColor);
+        }
+        isDead = false;
     }
+
     public void ApplyDamage(float damageAmount)
     {
-
         if (!IsAlive) return;
 
-        health -= damageAmount;
+        currentHealth -= damageAmount;
 
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
             isDead = true;
-            Destroy(gameObject);
             Debug.Log("Enemy Killed");
             gameObject.SetActive(false);
         }
         else
         {
-            if (material != null)
-            {
-                material.EnableKeyword("_EMISSION");
-                if (health <= 66 && health > 33)
-                {
-                    material.SetColor("_EmissionColor", wounded);
-                }
-                else if (health <= 32)
-                {
-                    material.SetColor("_EmissionColor", critical);
-                }
-            }
-            Debug.Log($"Damage applied: {damageAmount}. Remaining health: {health}");
+            Debug.Log($"Damage applied: {damageAmount}. Remaining health: {currentHealth}");
+
+            float healthPercent = currentHealth / data.maxHealth;
+
+            if (healthPercent <= 0.33f)
+                UpdateColor(data.criticalColor);
+            else if (healthPercent <= 0.66f)
+                UpdateColor(data.woundedColor);
         }
     }
 
+    private void UpdateColor(Color color)
+    {
+        if (renderers == null || renderers.Length == 0) return;
+
+        foreach (Renderer r in renderers)
+        {
+            r.GetPropertyBlock(propBlock);
+
+            propBlock.SetColor("_BaseColor", color);
+            propBlock.SetColor("_EmissionColor", color);
+
+            r.SetPropertyBlock(propBlock);
+        }
+    }
 }
