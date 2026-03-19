@@ -111,8 +111,10 @@ public class AddressableStressSpawner : MonoBehaviour
         {
             GameObject newObj = pool.Get();
 
-            newObj.transform.position = transform.position + Random.insideUnitSphere * spawnerData.spawnRadius;
-            newObj.transform.rotation = Random.rotation;
+            Vector2 randomCircle = Random.insideUnitCircle * spawnerData.spawnRadius;
+            Vector3 spawnPos = transform.position + new Vector3(randomCircle.x, 2f, randomCircle.y);
+
+            newObj.transform.position = spawnPos;
 
             if (newObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
             {

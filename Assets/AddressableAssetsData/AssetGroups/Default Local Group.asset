@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e774c45b1a277a469cef2f913c7ca62
+    m_Address: Assets/Final Prefabs/Enemy 1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 90596afa21dbd6f4cb826f89718fa212
     m_Address: NewFloor
     m_ReadOnly: 0

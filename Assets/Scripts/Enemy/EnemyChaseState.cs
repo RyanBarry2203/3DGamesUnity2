@@ -21,10 +21,14 @@ public class EnemyChaseState : IEnemyState
         if (direction != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
-            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * 5f);
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * 10f);
         }
 
-        enemy.transform.position += direction * enemy.data.chaseSpeed * Time.deltaTime;
+        enemy.Rb.linearVelocity = new Vector3(
+            direction.x * enemy.data.chaseSpeed,
+            enemy.Rb.linearVelocity.y,
+            direction.z * enemy.data.chaseSpeed
+        );
 
         if (Vector3.Distance(enemy.transform.position, enemy.Target.position) > enemy.data.detectionRadius * 1.5f)
         {
@@ -33,5 +37,8 @@ public class EnemyChaseState : IEnemyState
         }
     }
 
-    public void ExitState(Enemy enemy) { }
+    public void ExitState(Enemy enemy)
+    {
+        enemy.Rb.linearVelocity = new Vector3(0, enemy.Rb.linearVelocity.y, 0);
+    }
 }

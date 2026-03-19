@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour, IDamageable, IPoolable
 
     private IEnemyState currentState;
     public Transform Target { get; private set; }
+    public Rigidbody Rb { get; private set; }
 
     public bool IsAlive => currentHealth > 0 && !isDead;
 
@@ -24,6 +25,7 @@ public class Enemy : MonoBehaviour, IDamageable, IPoolable
         renderers = GetComponentsInChildren<Renderer>();
         propBlock = new MaterialPropertyBlock();
         animator = GetComponentInChildren<Animator>();
+        Rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
