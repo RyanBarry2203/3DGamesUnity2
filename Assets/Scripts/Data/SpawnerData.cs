@@ -11,8 +11,9 @@ public class SpawnerData : ScriptableObject
     [Header("Spawning Settings")]
     public int spawnCountPerFrame = 5;
     public float spawnRadius = 10f;
-
-
     public int maxActiveObjects = 500;
-    public InputActionReference toggleAction;
+
+    [Header("Input Actions")]
+    public InputActionReference toggleAction; 
+    public InputActionReference toggleDespawnAction;
 }

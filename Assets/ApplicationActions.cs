@@ -181,6 +181,24 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleEnemyDespawner"",
+                    ""type"": ""Button"",
+                    ""id"": ""146216db-c99e-490c-96dd-7feb4c82730f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleBallDespawner"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd49bca8-12a5-4648-add7-fc2faf04b14c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -348,6 +366,28 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64e18a40-a85e-4d9b-a168-2cc5106248cb"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleEnemyDespawner"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6417c74-64b1-426b-ad0a-e8ea68190cf4"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleBallDespawner"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -366,6 +406,8 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
         m_Game_ToggleEnemySpawner = m_Game.FindAction("ToggleEnemySpawner", throwIfNotFound: true);
         m_Game_ToggleBallSpawner = m_Game.FindAction("ToggleBallSpawner", throwIfNotFound: true);
         m_Game_ToggleUI = m_Game.FindAction("ToggleUI", throwIfNotFound: true);
+        m_Game_ToggleEnemyDespawner = m_Game.FindAction("ToggleEnemyDespawner", throwIfNotFound: true);
+        m_Game_ToggleBallDespawner = m_Game.FindAction("ToggleBallDespawner", throwIfNotFound: true);
     }
 
     ~@ApplicationActions()
@@ -456,6 +498,8 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_ToggleEnemySpawner;
     private readonly InputAction m_Game_ToggleBallSpawner;
     private readonly InputAction m_Game_ToggleUI;
+    private readonly InputAction m_Game_ToggleEnemyDespawner;
+    private readonly InputAction m_Game_ToggleBallDespawner;
     /// <summary>
     /// Provides access to input actions defined in input action map "Game".
     /// </summary>
@@ -507,6 +551,14 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Game/ToggleUI".
         /// </summary>
         public InputAction @ToggleUI => m_Wrapper.m_Game_ToggleUI;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/ToggleEnemyDespawner".
+        /// </summary>
+        public InputAction @ToggleEnemyDespawner => m_Wrapper.m_Game_ToggleEnemyDespawner;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/ToggleBallDespawner".
+        /// </summary>
+        public InputAction @ToggleBallDespawner => m_Wrapper.m_Game_ToggleBallDespawner;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -563,6 +615,12 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
             @ToggleUI.started += instance.OnToggleUI;
             @ToggleUI.performed += instance.OnToggleUI;
             @ToggleUI.canceled += instance.OnToggleUI;
+            @ToggleEnemyDespawner.started += instance.OnToggleEnemyDespawner;
+            @ToggleEnemyDespawner.performed += instance.OnToggleEnemyDespawner;
+            @ToggleEnemyDespawner.canceled += instance.OnToggleEnemyDespawner;
+            @ToggleBallDespawner.started += instance.OnToggleBallDespawner;
+            @ToggleBallDespawner.performed += instance.OnToggleBallDespawner;
+            @ToggleBallDespawner.canceled += instance.OnToggleBallDespawner;
         }
 
         /// <summary>
@@ -604,6 +662,12 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
             @ToggleUI.started -= instance.OnToggleUI;
             @ToggleUI.performed -= instance.OnToggleUI;
             @ToggleUI.canceled -= instance.OnToggleUI;
+            @ToggleEnemyDespawner.started -= instance.OnToggleEnemyDespawner;
+            @ToggleEnemyDespawner.performed -= instance.OnToggleEnemyDespawner;
+            @ToggleEnemyDespawner.canceled -= instance.OnToggleEnemyDespawner;
+            @ToggleBallDespawner.started -= instance.OnToggleBallDespawner;
+            @ToggleBallDespawner.performed -= instance.OnToggleBallDespawner;
+            @ToggleBallDespawner.canceled -= instance.OnToggleBallDespawner;
         }
 
         /// <summary>
@@ -714,5 +778,19 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleUI(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleEnemyDespawner" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleEnemyDespawner(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleBallDespawner" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleBallDespawner(InputAction.CallbackContext context);
     }
 }

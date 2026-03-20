@@ -22,3 +22,4 @@ MonoBehaviour:
   spawnRadius: 10
   maxActiveObjects: 500
   toggleAction: {fileID: 9192752014512962732, guid: 76ab7db13bdf8f948b470e8d0b458b6c, type: 3}
+  toggleDespawnAction: {fileID: 74735358251836535, guid: 76ab7db13bdf8f948b470e8d0b458b6c, type: 3}

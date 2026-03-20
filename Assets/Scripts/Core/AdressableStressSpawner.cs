@@ -17,7 +17,9 @@ public class AddressableStressSpawner : MonoBehaviour
     private ObjectPool<GameObject> pool;
     private GameObject loadedPrefab;
     private bool isInitialized = false;
+
     private bool isSpawning = false;
+    private bool isDespawning = false;
 
     private Queue<GameObject> activeObjects = new Queue<GameObject>();
 
@@ -29,25 +31,34 @@ public class AddressableStressSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        if (spawnerData != null && spawnerData.toggleAction != null && spawnerData.toggleAction.action != null)
+        if (spawnerData == null) return;
+
+        if (spawnerData.toggleAction != null && spawnerData.toggleAction.action != null)
         {
             spawnerData.toggleAction.action.Enable();
             spawnerData.toggleAction.action.performed += OnToggleSpawning;
+        }
+
+        if (spawnerData.toggleDespawnAction != null && spawnerData.toggleDespawnAction.action != null)
+        {
+            spawnerData.toggleDespawnAction.action.Enable();
+            spawnerData.toggleDespawnAction.action.performed += OnToggleDespawning;
         }
     }
 
     private void OnDisable()
     {
-        if (spawnerData != null && spawnerData.toggleAction != null && spawnerData.toggleAction.action != null)
-        {
+        if (spawnerData == null) return;
+
+        if (spawnerData.toggleAction != null && spawnerData.toggleAction.action != null)
             spawnerData.toggleAction.action.performed -= OnToggleSpawning;
-        }
+
+        if (spawnerData.toggleDespawnAction != null && spawnerData.toggleDespawnAction.action != null)
+            spawnerData.toggleDespawnAction.action.performed -= OnToggleDespawning;
     }
 
-    private void OnToggleSpawning(InputAction.CallbackContext context)
-    {
-        isSpawning = !isSpawning;
-    }
+    private void OnToggleSpawning(InputAction.CallbackContext context) => isSpawning = !isSpawning;
+    private void OnToggleDespawning(InputAction.CallbackContext context) => isDespawning = !isDespawning;
 
     private async Task InitializePoolAsync()
     {
@@ -73,10 +84,7 @@ public class AddressableStressSpawner : MonoBehaviour
     private GameObject CreatePooledItem()
     {
         GameObject instance = Instantiate(loadedPrefab);
-        if (instance.TryGetComponent<IPoolable>(out var poolable))
-        {
-            poolable.Initialize(pool);
-        }
+        if (instance.TryGetComponent<IPoolable>(out var poolable)) poolable.Initialize(pool);
         return instance;
     }
 
@@ -89,10 +97,12 @@ public class AddressableStressSpawner : MonoBehaviour
         if (!isInitialized) return;
 
         if (isSpawning) SpawnBatch();
+        if (isDespawning) DespawnBatch();
 
         if (statsOutput != null)
         {
             statsOutput.isSpawning = isSpawning;
+            statsOutput.isDespawning = isDespawning;
             statsOutput.activeCount = activeObjects.Count;
             statsOutput.totalPoolCount = pool.CountAll;
         }
@@ -104,8 +114,7 @@ public class AddressableStressSpawner : MonoBehaviour
         {
             GameObject newObj = pool.Get();
             Vector2 randomCircle = Random.insideUnitCircle * spawnerData.spawnRadius;
-            Vector3 spawnPos = transform.position + new Vector3(randomCircle.x, 2f, randomCircle.y);
-            newObj.transform.position = spawnPos;
+            newObj.transform.position = transform.position + new Vector3(randomCircle.x, 2f, randomCircle.y);
 
             if (newObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
             {
@@ -119,6 +128,23 @@ public class AddressableStressSpawner : MonoBehaviour
             {
                 GameObject oldestObj = activeObjects.Dequeue();
                 if (oldestObj.activeInHierarchy) pool.Release(oldestObj);
+            }
+        }
+    }
+
+    private void DespawnBatch()
+    {
+        for (int i = 0; i < spawnerData.spawnCountPerFrame; i++)
+        {
+            if (activeObjects.Count > 0)
+            {
+                GameObject obj = activeObjects.Dequeue();
+                if (obj.activeInHierarchy) pool.Release(obj);
+            }
+            else
+            {
+                isDespawning = false;
+                break;
             }
         }
     }

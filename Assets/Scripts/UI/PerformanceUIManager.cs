@@ -40,10 +40,7 @@ public class PerformanceUIManager : MonoBehaviour
 
     private void OnToggleUI(InputAction.CallbackContext context)
     {
-        if (statsPanel != null)
-        {
-            statsPanel.SetActive(!statsPanel.activeSelf);
-        }
+        if (statsPanel != null) statsPanel.SetActive(!statsPanel.activeSelf);
     }
 
     void Update()
@@ -68,7 +65,7 @@ public class PerformanceUIManager : MonoBehaviour
         if (enemyStatsData != null && enemyStatsText != null)
         {
             enemyStatsText.text = $"{enemyStatsData.spawnerName}\n" +
-                                  $"Status: {(enemyStatsData.isSpawning ? "<color=green>SPAWNING</color>" : "<color=red>STOPPED</color>")}\n" +
+                                  $"Status: {GetStatusString(enemyStatsData)}\n" +
                                   $"Active: {enemyStatsData.activeCount}\n" +
                                   $"Pool Size: {enemyStatsData.totalPoolCount}";
         }
@@ -76,9 +73,17 @@ public class PerformanceUIManager : MonoBehaviour
         if (ballStatsData != null && ballStatsText != null)
         {
             ballStatsText.text = $"{ballStatsData.spawnerName}\n" +
-                                 $"Status: {(ballStatsData.isSpawning ? "<color=green>SPAWNING</color>" : "<color=red>STOPPED</color>")}\n" +
+                                 $"Status: {GetStatusString(ballStatsData)}\n" +
                                  $"Active: {ballStatsData.activeCount}\n" +
                                  $"Pool Size: {ballStatsData.totalPoolCount}";
         }
+    }
+
+    private string GetStatusString(SpawnerStatsSO stats)
+    {
+        if (stats.isSpawning && stats.isDespawning) return "<color=yellow>SPAWN & DESPAWN</color>";
+        if (stats.isSpawning) return "<color=green>SPAWNING</color>";
+        if (stats.isDespawning) return "<color=#FFA500>DESPAWNING</color>";
+        return "<color=red>STOPPED</color>";
     }
 }
