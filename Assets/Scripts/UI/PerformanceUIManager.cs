@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PerformanceUIManager : MonoBehaviour
 {
@@ -8,19 +9,48 @@ public class PerformanceUIManager : MonoBehaviour
     public SpawnerStatsSO ballStatsData;
 
     [Header("UI Elements")]
+    public GameObject statsPanel;
     public TextMeshProUGUI enemyStatsText;
     public TextMeshProUGUI ballStatsText;
     public TextMeshProUGUI fpsText;
 
-    [Header("Optimization")]
+    [Header("Input & Optimization")]
+    public InputActionReference toggleUIAction;
     public float uiUpdateInterval = 0.2f;
 
     private float timer = 0f;
     private float deltaTime = 0.0f;
 
+    private void OnEnable()
+    {
+        if (toggleUIAction != null && toggleUIAction.action != null)
+        {
+            toggleUIAction.action.Enable();
+            toggleUIAction.action.performed += OnToggleUI;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (toggleUIAction != null && toggleUIAction.action != null)
+        {
+            toggleUIAction.action.performed -= OnToggleUI;
+        }
+    }
+
+    private void OnToggleUI(InputAction.CallbackContext context)
+    {
+        if (statsPanel != null)
+        {
+            statsPanel.SetActive(!statsPanel.activeSelf);
+        }
+    }
+
     void Update()
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+
+        if (statsPanel != null && !statsPanel.activeSelf) return;
 
         timer += Time.unscaledDeltaTime;
         if (timer >= uiUpdateInterval)
@@ -35,7 +65,6 @@ public class PerformanceUIManager : MonoBehaviour
         float fps = 1.0f / deltaTime;
         if (fpsText != null) fpsText.text = $"FPS: {Mathf.Ceil(fps)}";
 
-        // Read directly from the Scriptable Objects!
         if (enemyStatsData != null && enemyStatsText != null)
         {
             enemyStatsText.text = $"{enemyStatsData.spawnerName}\n" +
