@@ -11,14 +11,13 @@ public class AddressableStressSpawner : MonoBehaviour
     [Header("Configuration")]
     [SerializeField] private SpawnerData spawnerData;
 
+    [Header("Data Output (Decoupling)")]
+    [SerializeField] private SpawnerStatsSO statsOutput;
+
     private ObjectPool<GameObject> pool;
     private GameObject loadedPrefab;
     private bool isInitialized = false;
-
-    // Expose these for the UI
-    public bool IsSpawning { get; private set; } = false;
-    public int ActiveCount => activeObjects.Count;
-    public int TotalPoolCount => pool != null ? pool.CountAll : 0;
+    private bool isSpawning = false;
 
     private Queue<GameObject> activeObjects = new Queue<GameObject>();
 
@@ -30,7 +29,7 @@ public class AddressableStressSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        if (spawnerData != null && spawnerData.toggleAction != null)
+        if (spawnerData != null && spawnerData.toggleAction != null && spawnerData.toggleAction.action != null)
         {
             spawnerData.toggleAction.action.Enable();
             spawnerData.toggleAction.action.performed += OnToggleSpawning;
@@ -39,7 +38,7 @@ public class AddressableStressSpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        if (spawnerData != null && spawnerData.toggleAction != null)
+        if (spawnerData != null && spawnerData.toggleAction != null && spawnerData.toggleAction.action != null)
         {
             spawnerData.toggleAction.action.performed -= OnToggleSpawning;
         }
@@ -47,12 +46,7 @@ public class AddressableStressSpawner : MonoBehaviour
 
     private void OnToggleSpawning(InputAction.CallbackContext context)
     {
-        ToggleSpawning();
-    }
-
-    public void ToggleSpawning()
-    {
-        IsSpawning = !IsSpawning;
+        isSpawning = !isSpawning;
     }
 
     private async Task InitializePoolAsync()
@@ -93,7 +87,15 @@ public class AddressableStressSpawner : MonoBehaviour
     private void Update()
     {
         if (!isInitialized) return;
-        if (IsSpawning) SpawnBatch();
+
+        if (isSpawning) SpawnBatch();
+
+        if (statsOutput != null)
+        {
+            statsOutput.isSpawning = isSpawning;
+            statsOutput.activeCount = activeObjects.Count;
+            statsOutput.totalPoolCount = pool.CountAll;
+        }
     }
 
     private void SpawnBatch()
