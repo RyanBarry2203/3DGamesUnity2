@@ -70,9 +70,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleSpawner",
+                    "name": "ToggleEnemySpawner",
                     "type": "Button",
                     "id": "827c9f7d-333b-48b0-9f48-3c9a3cfdf437",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleBallSpawner",
+                    "type": "Button",
+                    "id": "dad667bf-904e-4e04-942b-815636e15504",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -219,7 +228,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToggleSpawner",
+                    "action": "ToggleEnemySpawner",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcdab180-955d-4404-a4db-153a10cc9908",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleBallSpawner",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

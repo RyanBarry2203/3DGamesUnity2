@@ -156,9 +156,18 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ToggleSpawner"",
+                    ""name"": ""ToggleEnemySpawner"",
                     ""type"": ""Button"",
                     ""id"": ""827c9f7d-333b-48b0-9f48-3c9a3cfdf437"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleBallSpawner"",
+                    ""type"": ""Button"",
+                    ""id"": ""dad667bf-904e-4e04-942b-815636e15504"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -305,7 +314,18 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ToggleSpawner"",
+                    ""action"": ""ToggleEnemySpawner"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcdab180-955d-4404-a4db-153a10cc9908"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleBallSpawner"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -323,7 +343,8 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
         m_Game_Crouch = m_Game.FindAction("Crouch", throwIfNotFound: true);
         m_Game_Interact = m_Game.FindAction("Interact", throwIfNotFound: true);
         m_Game_Attack = m_Game.FindAction("Attack", throwIfNotFound: true);
-        m_Game_ToggleSpawner = m_Game.FindAction("ToggleSpawner", throwIfNotFound: true);
+        m_Game_ToggleEnemySpawner = m_Game.FindAction("ToggleEnemySpawner", throwIfNotFound: true);
+        m_Game_ToggleBallSpawner = m_Game.FindAction("ToggleBallSpawner", throwIfNotFound: true);
     }
 
     ~@ApplicationActions()
@@ -411,7 +432,8 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Crouch;
     private readonly InputAction m_Game_Interact;
     private readonly InputAction m_Game_Attack;
-    private readonly InputAction m_Game_ToggleSpawner;
+    private readonly InputAction m_Game_ToggleEnemySpawner;
+    private readonly InputAction m_Game_ToggleBallSpawner;
     /// <summary>
     /// Provides access to input actions defined in input action map "Game".
     /// </summary>
@@ -452,9 +474,13 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_Game_Attack;
         /// <summary>
-        /// Provides access to the underlying input action "Game/ToggleSpawner".
+        /// Provides access to the underlying input action "Game/ToggleEnemySpawner".
         /// </summary>
-        public InputAction @ToggleSpawner => m_Wrapper.m_Game_ToggleSpawner;
+        public InputAction @ToggleEnemySpawner => m_Wrapper.m_Game_ToggleEnemySpawner;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/ToggleBallSpawner".
+        /// </summary>
+        public InputAction @ToggleBallSpawner => m_Wrapper.m_Game_ToggleBallSpawner;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -502,9 +528,12 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @ToggleSpawner.started += instance.OnToggleSpawner;
-            @ToggleSpawner.performed += instance.OnToggleSpawner;
-            @ToggleSpawner.canceled += instance.OnToggleSpawner;
+            @ToggleEnemySpawner.started += instance.OnToggleEnemySpawner;
+            @ToggleEnemySpawner.performed += instance.OnToggleEnemySpawner;
+            @ToggleEnemySpawner.canceled += instance.OnToggleEnemySpawner;
+            @ToggleBallSpawner.started += instance.OnToggleBallSpawner;
+            @ToggleBallSpawner.performed += instance.OnToggleBallSpawner;
+            @ToggleBallSpawner.canceled += instance.OnToggleBallSpawner;
         }
 
         /// <summary>
@@ -537,9 +566,12 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @ToggleSpawner.started -= instance.OnToggleSpawner;
-            @ToggleSpawner.performed -= instance.OnToggleSpawner;
-            @ToggleSpawner.canceled -= instance.OnToggleSpawner;
+            @ToggleEnemySpawner.started -= instance.OnToggleEnemySpawner;
+            @ToggleEnemySpawner.performed -= instance.OnToggleEnemySpawner;
+            @ToggleEnemySpawner.canceled -= instance.OnToggleEnemySpawner;
+            @ToggleBallSpawner.started -= instance.OnToggleBallSpawner;
+            @ToggleBallSpawner.performed -= instance.OnToggleBallSpawner;
+            @ToggleBallSpawner.canceled -= instance.OnToggleBallSpawner;
         }
 
         /// <summary>
@@ -630,11 +662,18 @@ public partial class @ApplicationActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "ToggleSpawner" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "ToggleEnemySpawner" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnToggleSpawner(InputAction.CallbackContext context);
+        void OnToggleEnemySpawner(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleBallSpawner" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleBallSpawner(InputAction.CallbackContext context);
     }
 }

@@ -14,18 +14,17 @@ public class AddressableStressSpawner : MonoBehaviour
     private ObjectPool<GameObject> pool;
     private GameObject loadedPrefab;
     private bool isInitialized = false;
-    private bool isSpawning = false;
+
+    // Expose these for the UI
+    public bool IsSpawning { get; private set; } = false;
+    public int ActiveCount => activeObjects.Count;
+    public int TotalPoolCount => pool != null ? pool.CountAll : 0;
 
     private Queue<GameObject> activeObjects = new Queue<GameObject>();
 
     private async void Start()
     {
-        if (spawnerData == null)
-        {
-            Debug.LogError($"No SpawnerData assigned to {gameObject.name}!");
-            return;
-        }
-
+        if (spawnerData == null) return;
         await InitializePoolAsync();
     }
 
@@ -48,8 +47,12 @@ public class AddressableStressSpawner : MonoBehaviour
 
     private void OnToggleSpawning(InputAction.CallbackContext context)
     {
-        isSpawning = !isSpawning;
-        Debug.Log($"{gameObject.name} Spawning is now {(isSpawning ? "ON" : "OFF")}");
+        ToggleSpawning();
+    }
+
+    public void ToggleSpawning()
+    {
+        IsSpawning = !IsSpawning;
     }
 
     private async Task InitializePoolAsync()
@@ -60,7 +63,6 @@ public class AddressableStressSpawner : MonoBehaviour
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
             loadedPrefab = handle.Result;
-
             pool = new ObjectPool<GameObject>(
                 createFunc: CreatePooledItem,
                 actionOnGet: OnTakeFromPool,
@@ -70,20 +72,13 @@ public class AddressableStressSpawner : MonoBehaviour
                 defaultCapacity: 100,
                 maxSize: spawnerData.maxActiveObjects + 100
             );
-
             isInitialized = true;
-            Debug.Log($"Pool Initialized for {loadedPrefab.name}!");
-        }
-        else
-        {
-            Debug.LogError("Failed to load Addressable prefab.");
         }
     }
 
     private GameObject CreatePooledItem()
     {
         GameObject instance = Instantiate(loadedPrefab);
-
         if (instance.TryGetComponent<IPoolable>(out var poolable))
         {
             poolable.Initialize(pool);
@@ -98,11 +93,7 @@ public class AddressableStressSpawner : MonoBehaviour
     private void Update()
     {
         if (!isInitialized) return;
-
-        if (isSpawning)
-        {
-            SpawnBatch();
-        }
+        if (IsSpawning) SpawnBatch();
     }
 
     private void SpawnBatch()
@@ -110,10 +101,8 @@ public class AddressableStressSpawner : MonoBehaviour
         for (int i = 0; i < spawnerData.spawnCountPerFrame; i++)
         {
             GameObject newObj = pool.Get();
-
             Vector2 randomCircle = Random.insideUnitCircle * spawnerData.spawnRadius;
             Vector3 spawnPos = transform.position + new Vector3(randomCircle.x, 2f, randomCircle.y);
-
             newObj.transform.position = spawnPos;
 
             if (newObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
@@ -127,20 +116,13 @@ public class AddressableStressSpawner : MonoBehaviour
             if (activeObjects.Count > spawnerData.maxActiveObjects)
             {
                 GameObject oldestObj = activeObjects.Dequeue();
-
-                if (oldestObj.activeInHierarchy)
-                {
-                    pool.Release(oldestObj);
-                }
+                if (oldestObj.activeInHierarchy) pool.Release(oldestObj);
             }
         }
     }
 
     private void OnDestroy()
     {
-        if (loadedPrefab != null)
-        {
-            Addressables.Release(loadedPrefab);
-        }
+        if (loadedPrefab != null) Addressables.Release(loadedPrefab);
     }
 }
